@@ -23,7 +23,8 @@ class FewView:
                 elif self.InputDeg[i] > 180.0:
                     #skip the value if it is 360 itself and we are going by 1s
                     if self.InputDeg[i] == 360 or self.InputDeg[i] == 360.0 and self.InputInc == 1.0:
-                        del self.HighMaxList[i] #delete the 360.0 we dont need it
+                        del self.HighMaxList[i] #<- it was this when I had it passed in as a list not numpy array
+                        #np.delete(self.HighMaxList,i) #delete the 360.0 we dont need it
                     else:
                         self.HighMaxList[i] = self.InputDeg[i] - 360.0
             #Add a -180.0 if the max is 360 so everything works out. This means we will repeat -180 and 180 but thats fine

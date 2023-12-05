@@ -20,8 +20,6 @@ Troubleshooting:
 
 The Python module pycromanager connects to the code Micro-Manager to control the Camera. Both of these codes are being continuously updated, if someone updates Micro-Manager with a new nightly build. The pycromanager module code may need to be updated itself. If there is a mismatch, in the Python terminal it will say something about "Java ZMQ: #.#.# and Python Client: #.#.#" and whatever numbers those are should match. 
 
-The easiest way to get them to match is to go to https://micro-manager.org/Micro-Manager_Nightly_Builds and download the most recent Version 2.0 build. Then in the Python terminal (I suggest using VS code to make sure it is the same Python environment) type "py -m pip install --upgrade pycromanager" (quotes not included in the command). Once these match, that issue should not persist. If any troubles come about for upgrading Pycromanager, you may need to intentionally install an older version of both pycromanager and micro-manager.
-
 2:
 Very often the Micro-Manager connection to the EMCCD camera has an issue when it is first launched. For whatever reason, you need to often go into device manager, uninstall the Andor control, re-install it, restart the computer, and then it will work. There is a whole document taking you through the steps to do this, but you will need Admin rights on this computer.
 
@@ -33,14 +31,3 @@ XYZ stage connection. make sure the XYZ stages are turned on and have a solid LE
 
 5:
 XYZ stage limit checks. Due to the rotation stage standoff proximity to the light tight box, there are movement limitations to ensure the sample does not hit the box. If the XYZ stage zero positions have been messed with, this may cause issues with movements. Turn off the XYZ stage controllers then turn them on and manually press and hold the jog buttons on the stages to find the zero positions (see documentation for where they should be) and then turn off the controllers. This will reset the zero position. If the limits need to be manually changed, this can be done in the XYZMotion_Station code. The positions are currently based on the step position not mm or in position.
-
-
-​
-
-​
-
-​
-
-​
-
-quinonez6@llnl.gov

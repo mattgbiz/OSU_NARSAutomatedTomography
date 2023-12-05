@@ -3,7 +3,8 @@
 #Update both pycromanager and download the nightly build of mm
 ###
 
-from pycromanager import Bridge 
+#from pycromanager import Bridge 
+from pycromanager import Core
 import numpy as np
 from PIL import Image, ImageTk, ImageEnhance
 #import matplotlib.pyplot as plt
@@ -15,9 +16,10 @@ class CameraControl:
 
     def __init__(self,port):
         #this creates a bridge from code to camera and connects it from the specific COM port specificied by the user
-        self.bridge = Bridge()
+        #self.bridge = Bridge()
         #get object representing micro-manager core
-        self.core = self.bridge.get_core()
+        #self.core = self.bridge.get_core()
+        self.core = Core()
         self.core.load_device("Port","SerialManager",port)
         self.core.set_property("Port","StopBits","2")
         self.core.set_property("Port","Parity","None")
@@ -29,7 +31,8 @@ class CameraControl:
         #does stuff with autoshutter
         self.auto_shutter = self.core.get_property('Core','AutoShutter')
         self.core.set_property('Core','AutoShutter',0)
-        
+        #may need to do the autoshutter using the setAutoShutter command
+        #self.core.set_auto_shutter()
         #Set the EM Gain for the camera
         #if the EM gain is 3 or less than 3 do not adjust it probably using CMOS
         if EMGain > 3:
