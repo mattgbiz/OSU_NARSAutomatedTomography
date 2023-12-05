@@ -17,8 +17,10 @@ import time
 
 #get some constants/defaults
 defaultVelocity = 2000
-stepsTomm = 0.0025
-mmToSteps = (1/0.0025)
+#stepsTomm = 0.0025
+#mmToSteps = (1/0.0025)
+stepsTomm = 0.00635     #it was given that it is 0.00025in/step online
+mmToSteps = (1/0.00635)
 mmToin = (1/25.4)
 inTomm = 25.4
 
@@ -209,6 +211,7 @@ class VXM(object):
         dist_end = self.getPosition(Stage,step_units=True) + dist_step
         Error = self.CheckLimits(Stage,dist_end)
         if Error != None:
+            print('Error in moving')
             return Error
         else:
             #make the command to move the stage
@@ -295,7 +298,7 @@ class VXM(object):
         Error = None
         assert Stage == 'X'
         if Stage == 'X':
-            if EndPosition > 24958 or EndPosition < -24958:
+            if EndPosition > 0 or EndPosition < -48000: #this was -27940 with old zero position in box
                 Error = 'The X limit would be hit with this move'
                 return Error
             else:
@@ -304,9 +307,11 @@ class VXM(object):
     def __del__(self):
         self._port.close()
 
-Xslide = VXM('COM6',9600,0.1)
-Xslide.move_mm('X',-10.0)
 
+#Xslide = VXM('COM8',9600,0.1)
+#Xslide.home()
+#Xslide.move_mm('X',-5.0)
+#Xslide.getPosition('X')
 """
 XYZ = VXM('COM3',9600,0.1)
 #XYZ.home()

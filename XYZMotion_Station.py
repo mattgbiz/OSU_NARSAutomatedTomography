@@ -3,7 +3,7 @@
 **********************************************************
 *     Developed By: Ohio State University NARS Lab       *
 *                 Developer: Matt Bisbee                 *
-*                                                        * 
+*               Very Early Version of code               * 
 **********************************************************
 """
 
@@ -75,35 +75,25 @@ class VXM(object):
         XSteps = self.CheckZero(XSteps)
         YSteps = self.CheckZero(YSteps)
         ZSteps = self.CheckZero(ZSteps)
-        #finally move the stage if each position allows it
         ErrorX = self.CheckLimits('X',XSteps)
-        if ErrorX != None:
-            return 'Stage cannot move to X position as it would hit box/wall'
+        ErrorY = self.CheckLimits('Y',YSteps)
+        ErrorZ = self.CheckLimits('Z',ZSteps)
+        if ErrorX or ErrorY or ErrorZ != None:
+            return 'One of the stages would gone beyond the limit'
         else:
+            #Now send the move
+            #need the move to be x direction first then y then z 
+            #MoveMessage = 'F,C,(,IA3M' + str(ZSteps) + ',IA2M' + str(YSteps) + ',),IA1M' + str(XSteps) + ',R'
+            #self.sendcmd(MoveMessage)
             if english_units == True:
                 self.abs_move_in('X',XPosition)
-            else:
-                self.abs_move_mm('X',XPosition)
-            self.waitReady()
-        #Next is Y
-        ErrorY = self.CheckLimits('Y',YSteps)
-        if ErrorY != None:
-            return 'Stage cannot move to Y position as it would hit box'
-        else:
-            if english_units == True:
                 self.abs_move_in('Y',YPosition)
-            else:
-                self.abs_move_mm('Y',YPosition)
-            self.waitReady()
-        #finally Z
-        ErrorZ = self.CheckLimits('Z',ZSteps)
-        if ErrorZ != None:
-            return 'Stage cannot move to Z position as it would hit box'
-        else:
-            if english_units == True:
                 self.abs_move_in('Z',ZPosition)
             else:
+                self.abs_move_mm('X',XPosition)
+                self.abs_move_mm('Y',YPosition)
                 self.abs_move_mm('Z',ZPosition)
+            
             self.waitReady()
         
     def SetupPositions(self,XPosition,YPosition,ZPosition,english_units=False):
@@ -542,7 +532,7 @@ class VXM(object):
                     return Error
             else:
                 #otherwise the stage is limited by the box itself.
-                if EndPosition > 50540 or EndPosition < 34000:
+                if EndPosition > 50540 or EndPosition < 31000:
                     Error = 'The X Stage would run into the box'
                     return Error
                 else:
@@ -552,7 +542,7 @@ class VXM(object):
         elif Stage == 'Y':
             #If the X stage is more than 34000 steps, then we are good for full Y range
             XLimitedCheck = self.getPosition('X', step_units=True)
-            if XLimitedCheck >= 34000: #we have to be careful I switched this for MTF test
+            if XLimitedCheck >= 24000: #we have to be careful I switched this for MTF test
                 if EndPosition > 0 or EndPosition < -50946:
                     Error = 'The Y limit would be hit with this move'
                     return Error
@@ -572,7 +562,7 @@ class VXM(object):
                 return Error
             else:
                 return Error
-
+    
     def __del__(self):
         self._port.close()
 

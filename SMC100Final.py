@@ -1,7 +1,4 @@
 #!/usr/bin/env python
-#SMC100 Controller Software for Newport Rotational Stage
-#Copyright (c) 2015 Shuning Bian named pySMC100. For licensing see License/Liscense-SMC100
-#Modifications to original code were made by Matt Bisbee but much of existing codewithstands
 import serial
 import time
 
